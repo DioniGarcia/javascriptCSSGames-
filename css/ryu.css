@@ -1,0 +1,201 @@
+*{box-sizing: border-box;}
+
+body{ 
+    background: black;
+    position: relative;
+   
+   
+}
+#audio{
+    position: absolute;
+    top: 4em;
+}
+
+.stitle{
+    height: 9em;
+    margin: auto;
+    
+    background-size:cover;
+    background-position: center;
+    background-origin: padding-box;
+    background-image: url(../css/sf_title.png);
+    animation: titleM 3s linear 1s 1 alternate-reverse;
+}
+
+.titCont{
+    margin: 10px;
+    height: 9em;
+    width: auto;
+    padding: 70px auto;
+
+}
+
+
+.container{
+    border-radius: .5em;
+    position: relative;
+    align-items: center;
+    margin: 10px;
+    height: 8em;
+    width: auto;
+    background-image: url(../css/fondo.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    box-shadow: 1px 1px  8px cyan;
+    
+}
+
+img{
+    width: 8em;
+    height: 8em;
+}
+
+#fighter{
+    position: absolute;
+    height: 8em;
+    
+    background-image: url(../css/ryu_stand.gif);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    top: 0px;
+    
+}
+#bola{
+    position: absolute;
+    top: 30%;
+    opacity: 0.0;
+    border-radius: 50%;
+    width: 2em;
+    height: 2em;
+    background-image: radial-gradient(yellow,red,cyan,purple);
+    
+}
+ 
+.pad{
+    border-radius: .5em;
+    margin: 10px; 
+    width: 7em;
+    height: 3em;
+    border: 1px dashed red;
+    display: flex;
+    align-items: center;
+    position: relative;
+    
+}
+
+.cross{
+    margin: 5px 2.5px 5px 5px;
+    width: 30%;
+    height: 60%;
+    border: 1px dashed blue;
+    position: relative;
+}
+
+.buts{
+    margin: 5px 5px 5px 2.5px;
+    width: 60%;
+    height: 60%;
+    border: 1px dashed blue;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0.2em;
+}
+
+.trigg{
+    border-radius: 50%;
+    width: 25%;
+    height: 50%;
+    color: white;
+    border: 1.5px dashed yellow;
+    text-align: center;
+    font-size: 0.5em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+.butt{
+    width: 35%;
+    height: 35%;
+    border: 2px dashed yellow;
+    position: absolute;
+}
+
+.up{
+    top: 0;
+    left: 50%;
+    transform: translate(-50%,-20%);
+}
+
+.down{
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,-00%);
+}
+
+.left{
+    bottom: 38%;
+    left: 0;
+}
+
+.right{
+    bottom: 38%;
+    right: 0;
+}
+
+
+
+@keyframes kame{
+    0% { transform: translateX(0em); 
+        opacity: 0.1;
+        width: 2.5em;
+        height: 2.5em;}
+    20% { transform: translateX(2em); 
+        opacity: 0.2;
+        width: 3em;
+        height: 3em;}
+    40% { transform: translateX(3em);
+        opacity: 0.4;
+        width: 3.5em;
+        height: 3.5em; }
+    60% { transform: translateX(5em); 
+        width: 4em;
+        opacity: 0.6;
+        height: 4em;}
+    80% { transform: translateX(10em);
+        width: 4.5em;
+        opacity: 0.8;
+        height: 4.5em; }
+    100% { transform: translateX(20em); 
+        width: 5em;
+        opacity: 0.1;
+        height: 5em;
+        }
+}
+
+@keyframes chKame{
+    0% { background-image: url(../css/ryu_stand.gif);}
+    50% { background-image: url(../css/ryu.png);}
+    100% { background-image: url(../css/ryu_stand.gif);
+    }
+}
+@keyframes kickA{
+    0% { background-image: url(../css/ryu_stand.gif);}
+    50% { background-image: url(../css/kick.png);}
+    100% { background-image: url(../css/ryu_stand.gif);
+    }
+}
+
+@keyframes titleM{
+    0%{ width: 80%; height: 80%; rotate: 180deg;}
+    50%{ width: 60%; 
+        height: 60%;
+         rotate:360deg;}
+    20%{ width: 20%; height: 20%;}
+    100%{ width: 60%; height: 60%;
+    }
+} 
+

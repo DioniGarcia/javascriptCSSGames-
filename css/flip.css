@@ -1,0 +1,54 @@
+h1, h3{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+.content{
+
+    width: 300px;
+    height: 500px;
+    margin: auto;
+}
+body{
+    background-color: ivory;
+}
+
+.grid{
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 400px;
+    
+    
+}
+
+[data-id]{
+    background-color: transparent;
+    perspective: 1000px;
+}
+
+.inner{
+    transition: transform 2s;
+    transform-style: preserve-3d;
+}
+
+.front, .back{
+    -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.back{
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+h3{
+    color: red;
+    text-align: left;
+}
+
+img{
+    outline: 2px solid black;
+}

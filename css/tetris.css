@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css?family=Tangerine');
+
+
+
+*{
+    font-family: 'Tangerine', sans-serif;
+    font-size: 1.1em;
+    box-sizing: border-box;
+}
+
+html{
+    background-image: radial-gradient(rgb(197, 255, 236), rgb(37, 167, 154));
+    height: 100%; min-height: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+h1{
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px #aaa;
+    animation: title 8s infinite ease-in-out;
+    font-size: 4em;
+    
+}
+
+.lSide{
+    position: absolute;
+    height: 4em;
+    width: 4em;
+    left: 4em;
+    
+
+    border-radius: .5em;
+    animation: movin 5s 1;
+    background-image: linear-gradient(purple,rgb(194, 79, 194));
+    border-top: 3px solid whitesmoke;
+    border-left: 3px solid whitesmoke;
+}
+
+.rSide{
+    position: absolute;
+    height: 4em;
+    width: 4em;
+    right: 4em;
+    
+    
+    
+
+    border-radius: .5em;
+    animation: movin 5s 1;
+    background-image: linear-gradient(orange,rgb(255, 211, 130));
+    border-top: 3px solid whitesmoke;
+    border-left: 3px solid whitesmoke;
+}
+
+
+.ova{
+    
+    position: absolute;
+    font-size: 4em;
+    color: red;
+    
+    top: 1em;  
+    opacity: 0;
+    z-index: 5;
+}
+.le{
+    text-align: right;
+    left: 1em;
+     
+    /*animation: ovaL 5s infinite;*/
+}
+
+.ri{
+    
+    right: 1em;
+    text-align: left;
+   
+    /*animation: ovaR 5s infinite;*/
+}
+
+
+.movin{
+    animation: movin 5s infinite;
+}
+
+#new{
+    display: none;
+}
+.btn{
+    border-radius: .5em;
+    height: 2em;
+    font-size: 0.9em;
+    
+}
+
+
+.btn:hover{
+    background-color:black;
+    color: white;
+}
+.container{
+    margin: auto;
+    max-width: 300px;
+    position: relative;
+}
+
+.display{
+    
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.grid{
+    
+    height: 400px;
+    width: 200px;
+    display: flex;
+    flex-flow: wrap;
+    background-color:rgba(224, 255, 255, 0.5);
+    
+}
+
+.grid > div{
+    width: 20px;
+    height: 20px;
+}
+
+
+.tetromino{ 
+    background-color: navy ; 
+    border-radius: 0.18em;
+    box-shadow:inset 2px 0px 0px 1px rgb(247, 236, 236);
+}
+
+.grids{ display: flex; }
+
+.mini{
+    margin-left: 20px;
+    width: 80px;
+    height:80px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: ivory;  
+    outline: 2px ridge khaki  
+}
+
+.mini div{
+    height: 20px;
+    width: 20px;
+}
+
+@keyframes movin{
+    0%{ transform: rotate(0deg); top: 4em;}
+    25%{transform: rotate(20deg); top: 2em;}
+    50%{transform: rotate(0deg); top: 10em;}
+    65%{transform: rotate(0deg); top: 25em;}
+    75%{transform: rotate(-90deg); top: 6em;}
+    100%{transform: rotate(-360deg); top: 4em;}
+}
+
+@keyframes ovaL{
+    0%{ transform: rotate(0deg); left: 1em; opacity: 0.1;}
+    45%{transform: rotate(20deg); left: 3em; opacity: 0.3;}
+    50%{transform: rotate(0deg); left: 4em; opacity: 0.5;font-size: 8em;}
+    65%{transform: rotate(0deg); left: 7em; opacity: 1;font-size: 8em;}
+    85%{transform: rotate(-90deg); left: 3em; opacity: 0.5;}
+    100%{transform: rotate(-360deg); left: 1em; opacity: 0.1;}
+}
+
+@keyframes ovaR{
+    0%{ transform: rotate(0deg); right: 1em; opacity: 0.1;}
+    45%{transform: rotate(-20deg); right: 3em; opacity: 0.3;}
+    50%{transform: rotate(0deg); right: 4em; opacity: 0.5;font-size: 8em;}
+    65%{transform: rotate(0deg); right: 7em; opacity: 1;font-size: 8em;}
+    85%{transform: rotate(-90deg); right: 3em; opacity: 0.5;}
+    100%{transform: rotate(-360deg); right: 1em; opacity: 0.1;}
+}
+
+@keyframes blink {
+    0% {box-shadow: 1px 1px 10px yellow;}
+    20% {box-shadow: 0 0 0  yellow;}
+    40% {box-shadow: 1px 1px 10px yellow;}
+    60% {box-shadow: 0 0 0 yellow;}
+    80% {box-shadow: 1px 1px 10px yellow;}
+    100% {box-shadow: 0 0 0  yellow; }
+}
+
+
+@keyframes title{
+    0%{  text-shadow: 1px 1px 2px #aaa;}
+    20%{  text-shadow: 1px 1px 2px orange;}
+    40%{  text-shadow: 1px 1px 2px red;}
+    60%{  text-shadow: 1px 1px 2px purple;}
+    80%{  text-shadow: 1px 1px 2px green;}
+    90%{  text-shadow: 1px 1px 2px blue;}
+        100%{  text-shadow: 1px 1px 2px grey;}
+}

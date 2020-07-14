@@ -1,0 +1,278 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 1em;
+  font-family: Arial;
+}
+
+.menu {
+  position: relative;
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  background: #333;
+  z-index: 5;
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  display: none;
+}
+
+.submenu .submenu{
+  top: 0;
+  left: 100%;
+}
+
+li {
+  position: relative;
+}
+
+li:hover > .submenu{
+  display: block;
+  min-width: 100%;
+}
+
+li:hover{
+  background: rgba(0,0,0,.5);
+}
+
+a {
+  text-decoration: none;
+  color:white;
+  display: block;
+  padding: .5em 1em;
+}
+
+
+.content-area{
+  min-height: 20em;
+  background-image: url(https://as01.epimg.net/epik/imagenes/2017/10/22/portada/1508686067_541460_1508686626_noticia_normal.jpg);
+  position: relative;
+}
+
+.slider{
+  border: 1px dashed blue;
+  min-height: 3em;
+  width: 3em;
+  background-color: rgba(216, 191, 216, 0.322);
+  position: absolute;
+  z-index: -5;
+  font-weight: bold;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  
+}
+
+
+.one{
+  bottom: 0;
+  background: red;
+  
+  animation: animated_div 5s infinite alternate;
+}
+
+@keyframes animated_div{
+  0%{
+    transform: rotate(0deg);
+    left:0px;
+  }
+  25%{
+    transform: rotate(20deg);
+    left: 0px;
+  }
+  50%{
+    transform: rotate(0deg);
+    left: 300px;
+  }
+  55%{
+    transform: rotate(0deg);
+    left: 300px;
+  }
+  70%{
+    transform: rotate(0deg);
+    left:300px;
+    background: rgb(19, 230, 230);
+  }
+  100%{
+    transform: rotate(-360deg);
+    left: 0px;
+  }
+}
+
+.two{
+  right:0;
+  animation: animated_sq 5s linear infinite alternate;
+  background-image: url(https://www.pngitem.com/pimgs/m/483-4835585_dobby-statue-hd-png-download.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@keyframes animated_sq {
+  0%   { right:0px; top:0px;}
+  25%  { right:100px; top:0px;}
+  50%  { right:100px; top:100px;}
+  75%  { right:0px; top:100px;}
+  100% { right:0px; top:0px;}
+}
+
+.three{
+  right:0.5em;
+  bottom:.5em;
+  animation: animated_rot 5s linear infinite alternate;
+  border-radius: 50%;
+}
+
+@keyframes animated_rot {
+  25%{
+    transform: rotate(-360deg);
+    border: 25px dashed blue;
+  }
+  50%{
+    transform: rotate(360deg);
+  }
+}
+
+/* POOL */
+
+.pool{
+  border: 10px solid maroon;
+  border-radius: 0.5em;
+  margin-top: 2em;
+  background: darkgreen;
+  height: 20em;
+  position: relative;
+}
+
+.hole{
+  height: 10%;
+  width: 6%;
+  border: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.685);
+  border-radius: 50%;
+  position: absolute;
+ 
+}
+
+.tc{
+  top: 0;
+  right: 50%;
+}
+
+.tr{ top:0; right:0;}
+
+.bl{ bottom:0; left: 0;}
+
+.bc{ bottom: 0; right: 50%;}
+
+.br{ bottom:0; right: 0;}
+
+.bola{
+  min-height: 10%;
+  width: 6%;
+  border-radius: 50%;
+  position: absolute;
+
+}
+.white{
+  background-image: linear-gradient(white,ivory,rgb(255, 255, 226));
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 20%;
+  box-shadow: 2px 2px 5px black;
+  animation: rula 7s linear 1 alternate;
+  animation-delay: 3s;
+}
+
+.rayada{
+  border: 6px solid black;
+  top: 30px;
+  left: 30px;
+}
+
+.stick{
+  height:4%;
+  width: 20%;
+  border-radius: .2em;
+  background-image: radial-gradient(maroon,coral);
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 0;
+  animation: shot 3s linear 1 alternate;
+}
+
+@keyframes shot {
+  0%   { width: 20%;}
+  25%  { width: 15%;}
+  50%  { width: 20%;}
+  75%  { width: 15%;}
+  100% { width: 35%;}
+}
+
+
+.stick::after{
+  display: block;
+  width: 2%;
+  height: 4%;
+  background: red;
+}
+
+@keyframes rula {
+  0%   { left: 20%;}
+  90% { top: 0; left: 50%;opacity:0;}
+  100%{}
+}
+
+/* HEART */
+
+.heart, 
+.heart::before, 
+.heart::after{
+   width: var(--size);
+  height: var(--size);
+  background: var(--color);
+}
+
+.heart::before,
+.heart::after{
+  content:'';
+  display:block;
+  margin-top: calc(var(--size)*-0.5);
+  border-radius: 50%;
+}
+
+
+.heart{
+  border: 1px dashed blue;
+  min-height: 30vh;
+
+  --size: 200px;
+  --color: red;
+  transform: rotate(90deg);
+  animation: beat 2s infinite alternate ease-in-out;
+  /*animation-play-state: paused;*/
+}
+
+@keyframes beat {
+  0%{ transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(45deg) scale(1.1); }
+  40% { transform: rotate(0deg) scale(1); }
+  60% { transform: rotate(-45deg) scale(1.1); }
+  80% { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(0deg) scale(0.1); }
+}
+.heart::after{
+  margin-left: calc(var(--size)*-0.5);
+}
+
+.heart:hover{
+  animation-play-state: running;
+}

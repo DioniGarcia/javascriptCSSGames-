@@ -1,0 +1,13 @@
+img{
+  max-width: 100%;
+}
+
+.caja{
+  border: 1px solid #999;
+  color: #444;
+  padding: 1em;
+  width: 32.3%;
+  margin:0.5%;
+  float:
+  box-sizing: border-box;
+}

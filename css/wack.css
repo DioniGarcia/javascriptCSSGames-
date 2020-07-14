@@ -1,0 +1,48 @@
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+h1{
+    margin-top: 2em;
+    text-align:center;
+}
+
+.fr{
+    float:right;
+}
+
+.fl{
+    float:left;
+}
+h2, h2 > span{
+    font-size: 0.9em;
+}
+.grid{
+    border: 1px solid black;
+    display: flex;
+    flex-flow: row wrap;
+    height: 300px;
+    width: 300px;
+    justify-content: center;
+    align-content: center;
+}
+
+.square{
+    outline: 3px dashed steelblue;
+    background-color: burlywood;
+    width: 100px;
+    height: 100px;
+}
+
+.content{
+   
+    width: 300px;
+    margin: auto;
+}
+
+.mole{
+    background-image: url(../images/mole.jpg);
+    background-size: cover;
+}

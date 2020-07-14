@@ -1,0 +1,33 @@
+*{
+    box-sizing: border-box;
+    }
+    
+    :root{
+      --w_wrapper: 600px;
+      --h_wrapper: 300px;
+    }
+    
+    .wrapper {
+      display: grid;
+      margin: auto;
+   
+      grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+      grid-template-rows: auto auto auto auto;
+      justify-content: center;
+      align-items:center;
+      grid-gap: 10px;
+      color: #444;
+      background-color: tomato;
+    }
+    
+    .box {
+      border: 2px dashed white;
+      background-color: #444;
+      color: white;
+      border-radius: 20px;
+      text-align: center;
+      width: 100px;
+      padding: 10px 0;
+      font-size: 1.5em;
+     
+    }

@@ -1,0 +1,96 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size)*.9)
+}
+h1{
+    margin: 2em 0 2em 0;
+    font-size: 2em;
+    text-align: center;    
+}
+.grid > div:not(.cellX):not(.cellO):hover{
+    cursor: crosshair;
+    background-color: lightcoral;
+}
+.grid > div{
+    
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border: 1px solid black;
+
+    /* TO DISPLAY THE X-O */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+.grid > div:nth-child(1n + 1){ border-top: none; }
+.grid > div:nth-child(3n + 1){ border-left: none; }
+.grid > div:nth-child(3n + 3){ border-right: none; }
+.grid > div:nth-child(n + 7){ border-bottom: none; }
+/* https://css-tricks.com/useful-nth-child-recipies/ */
+
+
+.grid{
+    
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3,calc(var(--cell-size)));
+    flex-wrap: wrap;
+    width: calc(var(--cell-size)*3);
+    height: calc(var(--cell-size)*3);
+    justify-content: space-between;
+}
+
+.winning-message{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+
+.cellX::after, .cellX::before{
+    content: '';
+    position: absolute;
+    width: calc(var(--mark-size)*.15);
+    height: var(--mark-size);
+    background-color: black;
+}
+.cellX::before{ transform: rotate(45deg); }
+.cellX::after{ transform: rotate(-45deg); }
+
+.cellO::after, .cellO::before{
+    content: '';
+    position: absolute;
+}
+
+.cellO::before{
+    width: calc(var(--mark-size)*.9);
+    height: calc(var(--mark-size)*.9);
+    background-color: black;
+    border-radius: 50%;
+}
+
+.cellO::after{
+    width: calc(var(--mark-size)*.6);
+    height: calc(var(--mark-size)*.6);
+    background-color: white;
+    border-radius: 50%;
+}
+
+
+
+#player-turn,h3{
+    background-color: lightpink;
+    position: absolute;
+    top: 60px;
+    right: 100px;
+}

@@ -1,0 +1,70 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.superior {
+  margin: 2em;
+  border: 1px solid black;
+}
+
+
+.interior{
+  margin: 2em;
+}
+.articles{
+  margin: 4em;
+
+}
+.yellowish{
+  background-color: #FBF8D5;
+  padding: 1em;
+  border: 1px solid black;
+}
+
+.article{
+  margin: 1em;
+  width: 60%;
+}
+
+.aside{
+  float: right;
+  width:30%;
+  padding: 1em;
+}
+
+.navv{
+  height: 2.5em;
+}
+
+.greyish{
+  background-color: #AEAEAB;
+}
+
+.grisisito{
+  color: #b9b992
+}
+
+.bluish{
+  color: blue;
+}
+
+.lItem{
+  list-style-type: none;
+  float:left;
+  margin: 0.5em;
+
+}
+.coment{
+  float: right;
+
+}
+
+.mensaje{
+  border: 1px solid black;
+
+}
+
+.centered{
+  text-align: center;
+}
