@@ -1,0 +1,44 @@
+*{
+    box-sizing: border-box;
+}
+
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: blue;
+}
+
+#tablero {
+    
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 500px;
+    height: 500px;
+}
+
+.casilla{
+    
+    width: 50px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 0.5em;
+   
+}
+
+.nueva{
+    background-image: radial-gradient(lightblue,steelblue);
+}
+.tocado{
+    background-image: radial-gradient(pink, orange)
+}
+.hundido{
+    background-image: radial-gradient(pink, red)
+}
+
+.barco{ }
+
+.casilla:hover{
+    border: 4px solid orange;
+}
+

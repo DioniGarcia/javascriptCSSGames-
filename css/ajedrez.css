@@ -1,0 +1,348 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100&display=swap');
+
+:root{
+    font-family: 'Alegreya Sans', sans-serif;
+    
+    --cellSize: 65px;
+}
+
+h1{
+    font-size: 6vh;
+    color: gold;
+    text-shadow: 2px 1px black;
+}
+
+body{
+    background-image: linear-gradient(to bottom left, ivory,black, ivory);
+    background-repeat: no-repeat;
+    height: 99vh;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.centered{
+    text-align:center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.scoring{
+    width: calc(var(--cellSize)*8);
+    height: 5vh;
+    margin-bottom: 2em;
+    transition: all 2s;
+}
+
+.playerOneWon{
+    border: 15px ridge rgb(122, 53, 13);
+    background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
+    min-width: 100px;
+    transition: all 2s;
+}
+.playerTwoWon{
+    border: 15px ridge rgb(122, 53, 13);
+    min-width: 100px;
+    transition: all 2s;
+    background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
+}
+
+
+.grid{
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 520px;
+    height: 520px;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.content{   
+    display:flex;
+    justify-content: space-evenly; 
+}
+
+.mensaje{
+    height: 9vh;
+    width: 24vw;
+    background-color: rgba(255, 0, 0, 0.493);
+    border-left: 5px solid red;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    opacity: 0%;
+    color: white;
+    font-weight: bold;
+    font-size: 4vh;
+    padding: 0 0 1em 1em;  
+}
+
+.show{
+    animation: showMessage 3s linear;
+}
+
+@keyframes showMessage{
+    0%{
+        left: 0;
+        opacity: 0;
+    }
+
+    10%{
+        left: 20vw;
+        opacity: 50%;
+    }
+
+    30%,70%{
+        left: 70vw; 
+        opacity: 100%;
+    }
+
+    80%{
+        left: 20vw;
+        opacity: 50%;
+    }
+    100%{
+        left: 0;
+        opacity: 0;
+    }
+}
+
+
+.madera{
+    border: 15px ridge rgb(122, 53, 13);
+    width: 652px;
+    height: 652px;
+    
+    margin-left: auto;
+    margin-right:auto;
+    background-image: linear-gradient(rgb(180, 69, 5), rgb(246, 224, 195),rgb(180, 70, 6) );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.numeros{
+    position: absolute;
+    font-size: 3.6em;
+    width: calc(var(--cellSize)*0.75);
+    height: calc(var(--cellSize)*8);
+    top: 60px;
+ 
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.left{
+    left:2px;
+}
+
+.right{
+    right:2px;
+}
+
+.letras{
+    position: absolute;
+    font-size: 3em;
+    width: calc(var(--cellSize)*8);
+    height: calc(var(--cellSize)*.75);
+    display: flex;
+}
+
+.down{
+    bottom: 2px;
+}
+
+.up{
+    top: 2px;
+}
+
+.letra{
+    width: var(--cellSize);
+    height: var(--cellSize);
+    text-shadow: 0px calc(var(--cellSize)*8.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numero{
+    width: var(--cellSize);
+    height: var(--cellSize);
+    text-shadow:  calc(var(--cellSize)*8.7) 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.cell{
+    width: var(--cellSize);
+    height: var(--cellSize);
+    border-radius: .2em;
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .1s ;
+}
+
+
+
+.cell:hover{
+    border: 4px solid orange;
+   
+}
+
+.blacked{
+    background-image: linear-gradient(to bottom right, black 20% , white);
+}
+
+.whited{
+    background-image: linear-gradient(to top left, white 50%, rgba(0, 0, 0, 0.315) );
+}
+
+.player{
+    
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3vh;
+    border-radius: 1em;
+}
+
+.one{
+    background-image: linear-gradient(to right,ivory,  blue, ivory);
+    float: left;
+    transition: all 1s;
+}
+
+.two{
+    background-image: linear-gradient(to right, ivory, green, ivory);
+    float:right;
+    transition: all 1s;
+}
+
+.turn{
+    border: 5px solid gold;
+}
+
+@media only screen and (max-width: 960px){
+    
+
+    :root{
+        --cellSize: 50px;
+    }
+    
+    .cell{
+        width: var(--cellSize);
+        height: var(--cellSize);
+        font-size: 2em;
+    }
+
+    .grid{
+        width: 402px;
+        height: 402px;
+    }
+    .scoring{
+        width: calc(var(--cellSize)*8);
+        
+    }
+    .player{
+        width: 50%;
+        font-size: 3vh;
+    }
+    .madera{
+        flex-grow: 0;
+        flex-shrink: 1;
+        width: 512px;
+    height: 512px;
+    }
+    
+}
+
+.pyro{
+    position: absolute;
+    top: 30%;
+    width: 30px;
+    height: 30px;
+}
+
+.pyro.left{
+    left: 20%;
+}
+
+.pyro.right{
+    right: 20%;
+}
+
+.pyro > .before, .pyro > .after {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    box-shadow: -120px -218.66667px blue, 248px -16.66667px #00ff84, 190px 16.33333px #002bff,
+                -113px -308.66667px #ff009d, -109px -287.66667px #ffb300, -50px -313.66667px #ff006e, 
+                226px -31.66667px #ff4000, 180px -351.66667px #ff00d0, -12px -338.66667px #00f6ff, 
+                220px -388.66667px #99ff00, -69px -27.66667px #ff0400, -111px -339.66667px #6200ff, 
+                155px -237.66667px #00ddff, -152px -380.66667px #00ffd0, -50px -37.66667px #00ffdd, 
+                -95px -175.66667px #a6ff00, -88px 10.33333px #0d00ff, 112px -309.66667px #005eff, 
+                69px -415.66667px #ff00a6, 168px -100.66667px #ff004c, -244px 24.33333px #ff6600, 
+                97px -325.66667px #ff0066, -211px -182.66667px #00ffa2, 236px -126.66667px #b700ff, 
+                140px -196.66667px #9000ff, 125px -175.66667px #00bbff, 118px -381.66667px #ff002f, 
+                144px -111.66667px #ffae00, 36px -78.66667px #f600ff, -63px -196.66667px #c800ff, 
+                -218px -227.66667px #d4ff00, -134px -377.66667px #ea00ff, -36px -412.66667px #ff00d4, 
+                209px -106.66667px #00fff2, 91px -278.66667px #000dff, -22px -191.66667px #9dff00, 
+                139px -392.66667px #a6ff00, 56px -2.66667px #0099ff, -156px -276.66667px #ea00ff, 
+                -163px -233.66667px #00fffb, -238px -346.66667px #00ff73, 62px -363.66667px #0088ff, 
+                244px -170.66667px #0062ff, 224px -142.66667px #b300ff, 141px -208.66667px #9000ff, 
+                211px -285.66667px #ff6600, 181px -128.66667px #1e00ff, 90px -123.66667px #c800ff, 
+                189px 70.33333px #00ffc8, -18px -383.66667px #00ff33, 100px -6.66667px #ff008c;
+    animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards; }
+  
+  .pyro > .after {
+    animation-delay: 1.25s, 1.25s, 1.25s;
+    animation-duration: 1.25s, 1.25s, 6.25s; }
+  
+  @keyframes bang {
+    from {
+      box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 
+      0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 
+      0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 
+      0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 
+      0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 
+      0 0 white, 0 0 white; } }
+ 
+  @keyframes gravity {
+    to {
+      transform: translateY(50px);
+      opacity: 0; } }
+  
+  @keyframes position {
+    0%, 19.9% {
+      margin-top: 5%;
+      margin-left: 20%; }
+  
+    20%, 39.9% {
+      margin-top: 20%;
+      margin-left: 15%; }
+  
+    40%, 59.9% {
+      margin-top: 10%;
+      margin-left: 35%; }
+  
+    60%, 79.9% {
+      margin-top: 15%;
+      margin-left: 10%; }
+  
+    80%, 99.9% {
+      margin-top: 20%;
+      margin-left: 40%; } }

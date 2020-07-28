@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/flexBox.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class="centered">CSS3 - Flexbox notes</h1>
+    <hr>
+
+    <div class="test1">
+        <p> > <span>  1st example: </span>Display flex / no-wrap / flex-start / parent & children without width/height
+            (its size is proportional to its content)</p>
+        <p> FlexBox container will grow horizontally in order to contain its children</p>
+        <div class="container">
+            <div class="item">11111</div>
+            <div class="item">22222</div>
+            <div class="item">33333</div>
+       
+        </div>
+    </div>
+
+    <div class="test2">
+        <p> > <span>  2nd example: </span> Display flex / no-wrap / flex-start / parent with 400px  & children without width/height
+            (its size is proportional to its content). FlexBox container will grow horizontally if children space summatory is bigger than parent's size</p>
+        <div class="container">
+            
+            <div class="item">11111</div>
+            <div class="item">11111</div>
+            <div class="item">11111</div>
+            <div class="flexMessage">FlexContainer</div>
+        </div>
+        <button id="add">Add child</button>
+        <button id="rem">Remove child</button>
+    </div> <br>
+    <p style="display: inline">400 px</p>
+    <div class="hr-container">
+        <hr style="display:block;" class="fhpx">
+    </div>
+   <br>
+
+    <div class="test3">
+        <p> > <span>  3rd example: </span> Display flex / no-wrap / flex-start / parent with 400px  & children without width/height
+            (its size is proportional to its content). FlexBox container will grow horizontally if children space summatory is bigger than parent's size</p>
+        <div class="container">
+            <div class="item i-sized">11111</div>
+            <div class="item i-sized">11111</div>
+            <div class="item i-sized">11111</div>
+            <div class="item i-sized">11111</div>
+            
+        </div>
+        <button id="add">Add child</button>
+        <button id="rem">Remove child</button>
+    </div>
+    <script src="../js/flexbox.js"></script>
+</body>
+</html>
