@@ -4,6 +4,22 @@ const letrasU = document.querySelector(".letras.up")
 const pOneWon = document.querySelector(".playerOneWon")
 const pTwoWon = document.querySelector(".playerTwoWon")
 const message = document.querySelector(".mensaje")
+/*const title = document.querySelector("h1")
+title.addEventListener('click', () => {
+    el1 = document.querySelector(".pyro > .before")
+    el2 = document.querySelector(".pyro > .after")
+
+
+    if(el2.style.animationPlayState === "running"){
+        el1.style.animationPlayState = "pause"
+        el2.style.animationPlayState = "pause"
+    }else{
+        el1.style.animationPlayState = "running"
+        el2.style.animationPlayState = "running"
+    }
+    
+
+})*/
 
 var whitePieces = 16
 var blackPieces = 16
@@ -124,19 +140,33 @@ function KillPiece(idS,idD){
     elSource.innerHTML = ""
     elDestiny.innerHTML = symbolS
 
+    el = document.createElement("div")
+    el.innerHTML = symbolD
     if(turn === "W"){
-        el = document.createElement("div").innerHTML = symbolS
+       
         pOneWon.appendChild(el)
         blackPieces--
     } else {
-        el = document.createElement("div").innerHTML = symbolD
-        pOneTwo.appendChild(el)
+        
+        pTwoWon.appendChild(el)
         whitePieces--
     }
 }
 
-function isBloquingWhitePeon(idSource){
-    var idDestiny = ( parseInt(idSource[0])+1 ) + idSource[1]
+/*
+
+    MÉTODOS AUXILIARES A MOVER UN PEON
+
+                                         */
+
+
+function isBloquingPeon(idSource){
+    var idDestiny;
+    if(turn === "W"){
+        idDestiny = ( parseInt(idSource[0])+1 ) + idSource[1]
+        return document.getElementById(idDestiny).innerHTML !== ""
+    }
+    idDestiny = ( parseInt(idSource[0])-1 ) + idSource[1]
     return document.getElementById(idDestiny).innerHTML !== ""
 }
 
@@ -153,7 +183,6 @@ function validDiagonalPeonAttack(idSource, idDestiny){
     return false;
 }
 
-
 function changeMarker(){
     if (turn === "W"){
         document.querySelector(".player.one").classList.add("turn")
@@ -168,39 +197,65 @@ function sameCol(idS,idD){
     return idS[1] === idD[1];
 }
 
+function calcAvance(idS,idD){
+    if(turn === "W"){
+        return parseInt(idD[0]) - parseInt(idS[0])
+    }
+    return parseInt(idS[0]) - parseInt(idD[0])
+}
+
+function checkReachedFinal(idD){
+    if(turn === "W"){
+        return idD[0] === "8";
+    }
+    return idD[0] === "1";
+}
+function cambioReina(idD){
+    el = document.getElementById(idD)
+    if (turn == "W"){
+        el.innerHTML = whiteChess.get("reina")
+    } else {
+        el.innerHTML = blackChess.get("reina")
+    }
+}
+
 function movePeon(idS, idD){
     var el = document.getElementById(idS)
     var primerMov = el.classList.contains("primerMovimiento")
     var moveDone = false
 
-    if(turn == "W"){
-        var avance = parseInt(idD[0]) - parseInt(idS[0])
-        console.log("EL AVANCE ES: "+avance)
+    var avance = calcAvance(idS,idD)
+    
+    if(  ( avance === 2 && primerMov  || avance === 1 ) && sameCol(idS,idD) && !isBloquingPeon(idS)){
+        swapPieces(idS,idD)
+        moveDone = true
+    } else if (avance === 1 && validDiagonalPeonAttack(idS,idD)){
+        KillPiece(idS,idD)
+        moveDone = true
+    }
+
+    if(moveDone){
+        if (checkReachedFinal(idD)) cambioReina(idD)
         
-        if(  ( avance == 2 && primerMov  || avance == 1 ) && sameCol(idS,idD) && !isBloquingWhitePeon(idS)){
-            console.log("AV uno / dos posisiones..")
-            swapPieces(idS,idD)
-            moveDone = true
-        } else if (avance == 1 && validDiagonalPeonAttack(idS,idD)){
-            console.log("AV ataque diagonal..")
-            KillPiece(idS,idD)
-            moveDone = true
+        if (el.classList.contains("primerMovimiento")){
+            el.classList.remove("primerMovimiento")
         }
-        if(moveDone && idD[0] === 8){
-            document.getElementById(idD).innerHTML = whiteChess.get("reina")
-        }
-    }
-
-    if(moveDone && el.classList.contains("primerMovimiento")){
-        el.classList.remove("primerMovimiento")
-    }
-
-    if(moveDone){ 
         changeTurn()
         changeMarker() 
     } else {
-        console.log("DISPARA MENSAJE...")
-        
+        message.classList.add("show")
+    }
+  
+}
+
+function moveTorre(idS,idD){
+    var moveDone = false
+
+    
+    if(moveDone){ 
+        changeTurn()
+        changeMarker()                     
+    } else {
         message.classList.add("show")
     }
 }
@@ -261,7 +316,7 @@ function try2computeMovement(idSource, idDestiny){
 
 
 function clickCell(){
-    
+    console.log("SE_CLICKA")
     // PRIMER CLICK A CASILLA CONTRARIA O VACIA 
     if( idChosenCell === "" && !checkIfAllowedPlayer(this.innerHTML, turn) ){
         console.log("->1")
@@ -288,9 +343,8 @@ function clickCell(){
         try2computeMovement(idChosenCell,idNextCell)
     }
 
-    console.log("ID_CH: <"+idChosenCell+">")
-    console.log("ID_NE: <"+idNextCell+">")
-    
+    console.log("ID_Chosen: <"+idChosenCell+">, "+"ID_NE: <"+idNextCell+">")
+
 }
 
 function isPeon(piece){

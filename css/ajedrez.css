@@ -37,14 +37,18 @@ body{
 }
 
 .playerOneWon{
+    font-size: 2.2em;
     border: 15px ridge rgb(122, 53, 13);
     background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
     min-width: 100px;
     transition: all 2s;
+    min-width: calc(var(--cellSize)*2);
 }
 .playerTwoWon{
+    font-size: 2.2em;
     border: 15px ridge rgb(122, 53, 13);
-    min-width: 100px;
+    min-width: calc(var(--cellSize)*2);
+    min-height: calc(var(--cellSize)*8);
     transition: all 2s;
     background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
 }
@@ -129,7 +133,7 @@ body{
     font-size: 3.6em;
     width: calc(var(--cellSize)*0.75);
     height: calc(var(--cellSize)*8);
-    top: 60px;
+    top: 7%;
  
    display: flex;
    flex-direction: column;
@@ -138,11 +142,11 @@ body{
 }
 
 .left{
-    left:2px;
+    left:0;
 }
 
 .right{
-    right:2px;
+    right:0;
 }
 
 .letras{
@@ -306,11 +310,14 @@ body{
                 244px -170.66667px #0062ff, 224px -142.66667px #b300ff, 141px -208.66667px #9000ff, 
                 211px -285.66667px #ff6600, 181px -128.66667px #1e00ff, 90px -123.66667px #c800ff, 
                 189px 70.33333px #00ffc8, -18px -383.66667px #00ff33, 100px -6.66667px #ff008c;
-    animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards; }
+    animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+    /*animation-play-state: paused;*/ }
   
   .pyro > .after {
     animation-delay: 1.25s, 1.25s, 1.25s;
-    animation-duration: 1.25s, 1.25s, 6.25s; }
+    animation-duration: 1.25s, 1.25s, 6.25s;
+    /*animation-play-state: paused;*/ }
+  
   
   @keyframes bang {
     from {
