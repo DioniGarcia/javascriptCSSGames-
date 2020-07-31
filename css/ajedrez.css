@@ -37,19 +37,19 @@ body{
 }
 
 .playerOneWon{
-    font-size: 2.2em;
+    font-size: calc(var(--cellSize)*.85);
     border: 15px ridge rgb(122, 53, 13);
     background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
-    min-width: 100px;
-    transition: all 2s;
-    min-width: calc(var(--cellSize)*2);
+    text-align:center;
+    transition: all 1s;
+    min-width: var(--cellSize);
 }
 .playerTwoWon{
-    font-size: 2.2em;
+    font-size: calc(var(--cellSize)*.85);
     border: 15px ridge rgb(122, 53, 13);
-    min-width: calc(var(--cellSize)*2);
-    min-height: calc(var(--cellSize)*8);
-    transition: all 2s;
+    min-width: var(--cellSize);
+    
+    transition: all 1s;
     background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
 }
 
@@ -71,16 +71,26 @@ body{
 .mensaje{
     height: 9vh;
     width: 24vw;
-    background-color: rgba(255, 0, 0, 0.493);
-    border-left: 5px solid red;
+    
     bottom: 0;
     left: 0;
     position: absolute;
     opacity: 0%;
     color: white;
+    text-shadow: 2px 2px black;
     font-weight: bold;
     font-size: 4vh;
     padding: 0 0 1em 1em;  
+}
+
+.red{
+    background-color: rgba(255, 0, 0, 0.493);
+    border-left: 5px solid red;
+}
+
+.green{
+    background-color: rgba(61, 148, 34, 0.493);
+    border-left: 5px solid green;
 }
 
 .show{
@@ -275,7 +285,8 @@ body{
 
 .pyro{
     position: absolute;
-    top: 30%;
+    top: 25%;
+    left: 50%;
     width: 30px;
     height: 30px;
 }

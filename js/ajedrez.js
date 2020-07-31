@@ -29,6 +29,19 @@ var turn = "W"
 var idChosenCell = ""
 var idNextCell = ""
 
+const goodMessages = [
+    "Muy Bien!",
+    "Sigue así!",
+    "Bravo!",
+    "Bien hecho!",
+    "Correcto!",
+    "Así se hace!",
+    "Voilá!",
+    "Eso es!",
+    "Vamos, tu puedes!"
+]
+
+
 const blackChess = new Map([
     ["peon","&#9823"],
     ["caballo","&#9822"],
@@ -110,7 +123,8 @@ function included(arr, elem){
     return false;
 }
 
-function checkIfAllowedPlayer(piece, turn){
+function isCurrentPlayerChess(piece){
+    console.log("ENTRA IS CURR..piece: "+piece)
    if( turn === "W"){
        return included(whiteChessSymbols,piece)
    }
@@ -151,6 +165,7 @@ function KillPiece(idS,idD){
         pTwoWon.appendChild(el)
         whitePieces--
     }
+    mensajeOK()
 }
 
 /*
@@ -160,7 +175,7 @@ function KillPiece(idS,idD){
                                          */
 
 
-function isBloquingPeon(idSource){
+function isBlocked(idSource, idNextStep){
     var idDestiny;
     if(turn === "W"){
         idDestiny = ( parseInt(idSource[0])+1 ) + idSource[1]
@@ -193,8 +208,12 @@ function changeMarker(){
     }
 }
 
-function sameCol(idS,idD){
+function eqCol(idS,idD){
     return idS[1] === idD[1];
+}
+
+function eqRow(idS,idD){
+    return idS[0] === idD[0];
 }
 
 function calcAvance(idS,idD){
@@ -210,7 +229,7 @@ function checkReachedFinal(idD){
     }
     return idD[0] === "1";
 }
-function cambioReina(idD){
+function upgrade2Queen(idD){
     el = document.getElementById(idD)
     if (turn == "W"){
         el.innerHTML = whiteChess.get("reina")
@@ -219,6 +238,26 @@ function cambioReina(idD){
     }
 }
 
+function mensajeMovInvalido(){
+    message.innerHTML="Movimiento inválido"
+    message.classList.add("show","red")
+}
+
+function borrarMensaje(){
+    message.innerHTML = ""
+    message.classList.remove("red","green", "show")
+}
+
+function mensajeOK(){
+    console.log("IMPRIME MENSAJE OK")
+    var min = 0
+    var max = goodMessages.length-1
+    var rdPos = Math.floor(Math.random()*(max-min+1))+min;
+    message.innerHTML=goodMessages[rdPos]
+    message.classList.add("green","show")
+}
+
+
 function movePeon(idS, idD){
     var el = document.getElementById(idS)
     var primerMov = el.classList.contains("primerMovimiento")
@@ -226,38 +265,175 @@ function movePeon(idS, idD){
 
     var avance = calcAvance(idS,idD)
     
-    if(  ( avance === 2 && primerMov  || avance === 1 ) && sameCol(idS,idD) && !isBloquingPeon(idS)){
-        swapPieces(idS,idD)
-        moveDone = true
+    // AVANCE 1 o 2 posiciones hacia delante
+    if(  ( avance === 2 && primerMov  || avance === 1 ) && 
+           eqCol(idS,idD) ){
+        if ( turn === "W" && !isBlocked(idS, ""+(parseInt(idS[0])+1)+""+idS[1]) ||
+             turn !== "W" && !isBlocked(idS, ""+(parseInt(idS[0])-1)+""+idS[1])){
+            swapPieces(idS,idD)
+            moveDone = true
+        }
+
+    //Matar en diagonal
     } else if (avance === 1 && validDiagonalPeonAttack(idS,idD)){
         KillPiece(idS,idD)
         moveDone = true
     }
 
     if(moveDone){
-        if (checkReachedFinal(idD)) cambioReina(idD)
+        if (checkReachedFinal(idD)) upgrade2Queen(idD)
         
         if (el.classList.contains("primerMovimiento")){
             el.classList.remove("primerMovimiento")
         }
+        
         changeTurn()
         changeMarker() 
+         
     } else {
-        message.classList.add("show")
+        mensajeMovInvalido()
     }
   
 }
 
-function moveTorre(idS,idD){
+
+// Controlar si hay una pieza entremedias up/down/left/right
+function blockedBeforeTarget(idS,idD){
+
+    if ( eqCol(idS,idD) ){
+        var start = parseInt(idS[0])
+        var end = parseInt(idD[0])
+
+        //Controlling both cases.. going up or going down
+        if ( start > end){
+            var aux = end
+            end = start 
+            start = aux
+        }
+        for (var i = start+1; i< end; i++){
+            el = document.getElementById(""+i+idS[1])
+            if(el.innerHTML !== ""){
+                return true;
+            }
+        }
+        
+    } else {
+        var start = cLetters.indexOf(idS[1])
+        var end = cLetters.indexOf(idD[1])
+
+        //Controlling both cases.. going left or going right
+        if ( start > end){
+            var aux = end
+            end = start 
+            start = aux
+        }
+
+        for (var i = start+1; i< end; i++){
+            el = document.getElementById(idS[0]+cLetters[i])
+            if(el.innerHTML !== ""){
+                return true;
+            }
+        }
+
+    }
+    
+    return false;
+}
+
+function moveTorre(idS,idD){   /* TODO: SE COME LAS PIEZAS DEL JUGADOR ACTUAL */
+    console.log("MUEVE TORRE")
     var moveDone = false
 
+    if (!blockedBeforeTarget(idS,idD) && ( eqCol(idS,idD) || eqRow(idS,idD) )){
+
+        if(document.getElementById(idD).innerHTML === ""){
+            swapPieces(idS,idD)
+        }else{
+            KillPiece(idS,idD)
+        }
+        console.log("IDS: "+idS+" IDD: "+idD)              
+        moveDone = true
+    }
     
     if(moveDone){ 
         changeTurn()
-        changeMarker()                     
+        changeMarker()
+                           
     } else {
-        message.classList.add("show")
+        mensajeMovInvalido()
     }
+}
+
+
+function eqDiagonal(idS,idD){
+    return Math.abs(parseInt(idS[0]) - parseInt(idD[0])) === 
+    Math.abs(cLetters.indexOf(idS[1]) - cLetters.indexOf(idD[1]))
+}
+
+function diagonalNotBloqued(idS,idD){
+    console.log("Ver si diagonal bloqueada...")
+    var startNUmber = parseInt(idS[0])
+    var endNumber = parseInt(idD[0])
+    var idxLetterStart = cLetters.indexOf(idS[1])
+    var idxLetterEnd = cLetters.indexOf(idD[1])
+
+    console.log("LETRA S: "+idxLetterStart+", LETRA D: "+idxLetterEnd)
+
+
+    var ascendNumber = true
+    var ascendLetter = true
+
+    // determinar si van en incemento/decremento el número/letra
+    if (startNUmber > endNumber) ascendNumber = false
+    if( idxLetterStart > idxLetterEnd) ascendLetter = false
+
+    console.log("Numero en ascenso: "+ascendNumber+", letra en descenso: "+ascendLetter)
+
+    var nIterations = Math.abs(startNUmber-endNumber) -1
+    console.log("nIterations: "+nIterations)
+
+    while (nIterations > 0){
+        console.log("preInc_SN: "+startNUmber+", SL: "+idxLetterStart)
+        ascendNumber ? ++startNUmber : --startNUmber;
+        ascendLetter ? ++idxLetterStart : --idxLetterStart;
+        console.log("postInc_SN: "+startNUmber+", SL: "+idxLetterStart)
+
+        if (document.getElementById(""+startNUmber+cLetters[idxLetterStart]).innerHTML !== ""){
+            console.log("bloqueo con..."+""+startNUmber+cLetters[idxLetterStart])
+            return false;
+        }
+
+        nIterations--
+    }
+    ascendNumber ? ++startNUmber : --startNUmber;
+    ascendLetter ? ++idxLetterStart : --idxLetterStart;
+    return ((startNUmber)+cLetters[idxLetterStart]) === idD
+
+}
+
+
+function moveAlfil(idS, idD){
+    console.log("MUEVE ALFIL")
+    var moveDone = false
+
+    if (eqDiagonal(idS,idD) && diagonalNotBloqued(idS,idD)){
+        if(document.getElementById(idD).innerHTML === ""){
+            swapPieces(idS,idD)
+        }else{
+            KillPiece(idS,idD)
+        }
+        console.log("IDS: "+idS+" IDD: "+idD)              
+        moveDone = true
+    }
+    
+    if(moveDone){ 
+        changeTurn()
+        changeMarker()
+                           
+    } else {
+        mensajeMovInvalido()
+    }
+    
 }
 
 function selectAlgorithm(idS, nS, idD, nD){
@@ -318,14 +494,14 @@ function try2computeMovement(idSource, idDestiny){
 function clickCell(){
     console.log("SE_CLICKA")
     // PRIMER CLICK A CASILLA CONTRARIA O VACIA 
-    if( idChosenCell === "" && !checkIfAllowedPlayer(this.innerHTML, turn) ){
+    if( idChosenCell === "" && !isCurrentPlayerChess(this.innerHTML) ){
         console.log("->1")
-        /* CASILLAS FUERA DE TU ALCANCE */
+        /* DO NOTHING */
 
     //CLICAS PARA SELECCIONAR ALGUNA DE TUS CASILLAS
-    }else if( idChosenCell === "" && checkIfAllowedPlayer(this.innerHTML, turn) ){
+    }else if( idChosenCell === "" && isCurrentPlayerChess(this.innerHTML) ){
         console.log("->2")
-        document.querySelector(".mensaje").classList.remove("show")
+        borrarMensaje()
         this.style.border = "3px solid blue";
         idChosenCell = this.getAttribute("id")
 
@@ -335,10 +511,15 @@ function clickCell(){
         document.getElementById(idChosenCell).style.border = "";
         idChosenCell = ""
         idNextCell = ""
-
-    //CLICAS UNA CASILLA DESTINO
-    } else if ( idChosenCell !== "" ) {
+    
+    //Intento matar una pieza de tu color
+    }else if(idChosenCell !== "" && isCurrentPlayerChess(this.innerHTML)){
         console.log("->4")
+        mensajeMovInvalido()    
+    
+    
+    } else {
+        console.log("->5")
         idNextCell = this.getAttribute("id")
         try2computeMovement(idChosenCell,idNextCell)
     }
@@ -408,3 +589,5 @@ function changeTurn(){
 }
 
 createBoard()
+
+
