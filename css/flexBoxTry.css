@@ -1,0 +1,28 @@
+.container{
+    
+    height: 20vh;
+    width: 50vw;
+    margin: 20vh auto auto auto;
+    border: 3px dashed steelblue;
+
+    display:flex;
+
+}
+
+.container > div{
+    height: 100%;
+}
+
+.left{
+    background-color: tan;
+    flex-grow: .5;
+}
+.central{
+ background-color: teal;
+ flex-grow: 2;
+}
+
+.right{
+ background-color: tomato;
+ flex-grow: .5;
+}

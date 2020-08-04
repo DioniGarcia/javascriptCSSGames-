@@ -1,25 +1,25 @@
 const grid = document.querySelector(".grid")
 const numerosL = document.querySelector(".numeros.left")
 const letrasU = document.querySelector(".letras.up")
-const pOneWon = document.querySelector(".playerOneWon")
-const pTwoWon = document.querySelector(".playerTwoWon")
+const p1 = document.querySelector(".p1")
+const p2 = document.querySelector(".p2")
 const message = document.querySelector(".mensaje")
-/*const title = document.querySelector("h1")
-title.addEventListener('click', () => {
-    el1 = document.querySelector(".pyro > .before")
-    el2 = document.querySelector(".pyro > .after")
+const btnNewGame = document.querySelector(".nuevoJuego")
+const gameOverModal = document.querySelector(".gameOver")
+const pantalla = document.querySelector(".pantalla")
+var lastCellKilled = ""
+var whiteKingPosition = "1E"
+var blackKingPosition = "8E"
+var animating = false
 
 
-    if(el2.style.animationPlayState === "running"){
-        el1.style.animationPlayState = "pause"
-        el2.style.animationPlayState = "pause"
-    }else{
-        el1.style.animationPlayState = "running"
-        el2.style.animationPlayState = "running"
-    }
-    
+btnNewGame.addEventListener("click", ()=>{
+    createBoard()
+    gameOverModal.style.visibility = "hidden"
+    pantalla.style.visibility = "hidden"
+    btnNewGame.style.visibility = "hidden"
+})
 
-})*/
 
 var whitePieces = 16
 var blackPieces = 16
@@ -79,6 +79,28 @@ function fillSymbols(){
 
 fillSymbols()
 
+function startAnimations(){
+    document.querySelector(".whiteP").classList.add("bouncing")
+    document.querySelector(".blackP").classList.add("bouncing")
+    /*document.querySelector(".pyro > .before").classList.add("fireworks")
+    document.querySelector(".pyro > .after").classList.add("fireworks","fireworks2")*/
+}
+
+function stopAnimations(){
+    document.querySelector(".whiteP").classList.remove("bouncing", "bouncingFinal")
+    document.querySelector(".blackP").classList.remove("bouncing","bouncingFinal")
+    document.querySelector(".pyro > .before").classList.remove("fireworks")
+    document.querySelector(".pyro > .after").classList.remove("fireworks","fireworks2","fireworksFinal")
+}
+
+function animateFinal(){
+    document.querySelector(".whiteP").classList.add("bouncingFinal")
+    document.querySelector(".blackP").classList.add("bouncingFinal")
+    document.querySelector(".pyro > .before").classList.add("fireworks")
+    document.querySelector(".pyro > .after").classList.add("fireworks","fireworks2")
+    document.querySelector(".pyro > .after").classList.add("fireworksFinal")
+}
+
 
 function swithColor(){
     if(bColor === "white"){
@@ -124,7 +146,7 @@ function included(arr, elem){
 }
 
 function isCurrentPlayerChess(piece){
-    console.log("ENTRA IS CURR..piece: "+piece)
+
    if( turn === "W"){
        return included(whiteChessSymbols,piece)
    }
@@ -144,28 +166,28 @@ function swapPieces(idS,idD){
 }
 
 function KillPiece(idS,idD){
-    console.log("ENTERS KILL")
+    
+ 
     const elSource = document.getElementById(idS)
     var symbolS = elSource.innerHTML
 
     const elDestiny = document.getElementById(idD)
+    elDestiny.classList.add("killedCell")
     var symbolD = elDestiny.innerHTML
+
+    lastCellKilled = idD
+
 
     elSource.innerHTML = ""
     elDestiny.innerHTML = symbolS
 
     el = document.createElement("div")
     el.innerHTML = symbolD
-    if(turn === "W"){
-       
-        pOneWon.appendChild(el)
-        blackPieces--
-    } else {
-        
-        pTwoWon.appendChild(el)
-        whitePieces--
-    }
+
+    turn === "W" ? p1.appendChild(el) : p2.appendChild(el)
+    
     mensajeOK()
+    startAnimations()
 }
 
 /*
@@ -229,6 +251,7 @@ function checkReachedFinal(idD){
     }
     return idD[0] === "1";
 }
+
 function upgrade2Queen(idD){
     el = document.getElementById(idD)
     if (turn == "W"){
@@ -243,13 +266,20 @@ function mensajeMovInvalido(){
     message.classList.add("show","red")
 }
 
+function mensajeJaque(){
+    var rey = turn === "W" ? "blanco" : "negro"
+
+    message.innerHTML="Jaque al rey "+rey
+    message.classList.add("show","orange")
+}
+
 function borrarMensaje(){
     message.innerHTML = ""
     message.classList.remove("red","green", "show")
 }
 
 function mensajeOK(){
-    console.log("IMPRIME MENSAJE OK")
+
     var min = 0
     var max = goodMessages.length-1
     var rdPos = Math.floor(Math.random()*(max-min+1))+min;
@@ -259,10 +289,17 @@ function mensajeOK(){
 
 
 function movePeon(idS, idD){
+    function newPositionChecks(){
+        if (checkReachedFinal(idD)) upgrade2Queen(idD)
+        
+        if (el.classList.contains("primerMovimiento")){
+            el.classList.remove("primerMovimiento")
+        }
+    }
+
     var el = document.getElementById(idS)
     var primerMov = el.classList.contains("primerMovimiento")
-    var moveDone = false
-
+   
     var avance = calcAvance(idS,idD)
     
     // AVANCE 1 o 2 posiciones hacia delante
@@ -271,29 +308,16 @@ function movePeon(idS, idD){
         if ( turn === "W" && !isBlocked(idS, ""+(parseInt(idS[0])+1)+""+idS[1]) ||
              turn !== "W" && !isBlocked(idS, ""+(parseInt(idS[0])-1)+""+idS[1])){
             swapPieces(idS,idD)
-            moveDone = true
+            newPositionChecks()
+            return true
         }
 
     //Matar en diagonal
     } else if (avance === 1 && validDiagonalPeonAttack(idS,idD)){
         KillPiece(idS,idD)
-        moveDone = true
+        newPositionChecks()
+        return true
     }
-
-    if(moveDone){
-        if (checkReachedFinal(idD)) upgrade2Queen(idD)
-        
-        if (el.classList.contains("primerMovimiento")){
-            el.classList.remove("primerMovimiento")
-        }
-        
-        changeTurn()
-        changeMarker() 
-         
-    } else {
-        mensajeMovInvalido()
-    }
-  
 }
 
 
@@ -341,8 +365,6 @@ function blockedBeforeTarget(idS,idD){
 }
 
 function moveTorre(idS,idD){   /* TODO: SE COME LAS PIEZAS DEL JUGADOR ACTUAL */
-    console.log("MUEVE TORRE")
-    var moveDone = false
 
     if (!blockedBeforeTarget(idS,idD) && ( eqCol(idS,idD) || eqRow(idS,idD) )){
 
@@ -351,17 +373,10 @@ function moveTorre(idS,idD){   /* TODO: SE COME LAS PIEZAS DEL JUGADOR ACTUAL */
         }else{
             KillPiece(idS,idD)
         }
-        console.log("IDS: "+idS+" IDD: "+idD)              
-        moveDone = true
+                   
+        return true
     }
-    
-    if(moveDone){ 
-        changeTurn()
-        changeMarker()
-                           
-    } else {
-        mensajeMovInvalido()
-    }
+    return false
 }
 
 
@@ -371,14 +386,11 @@ function eqDiagonal(idS,idD){
 }
 
 function diagonalNotBloqued(idS,idD){
-    console.log("Ver si diagonal bloqueada...")
+
     var startNUmber = parseInt(idS[0])
     var endNumber = parseInt(idD[0])
     var idxLetterStart = cLetters.indexOf(idS[1])
     var idxLetterEnd = cLetters.indexOf(idD[1])
-
-    console.log("LETRA S: "+idxLetterStart+", LETRA D: "+idxLetterEnd)
-
 
     var ascendNumber = true
     var ascendLetter = true
@@ -387,68 +399,114 @@ function diagonalNotBloqued(idS,idD){
     if (startNUmber > endNumber) ascendNumber = false
     if( idxLetterStart > idxLetterEnd) ascendLetter = false
 
-    console.log("Numero en ascenso: "+ascendNumber+", letra en descenso: "+ascendLetter)
-
     var nIterations = Math.abs(startNUmber-endNumber) -1
-    console.log("nIterations: "+nIterations)
 
     while (nIterations > 0){
-        console.log("preInc_SN: "+startNUmber+", SL: "+idxLetterStart)
+        
         ascendNumber ? ++startNUmber : --startNUmber;
         ascendLetter ? ++idxLetterStart : --idxLetterStart;
-        console.log("postInc_SN: "+startNUmber+", SL: "+idxLetterStart)
 
         if (document.getElementById(""+startNUmber+cLetters[idxLetterStart]).innerHTML !== ""){
-            console.log("bloqueo con..."+""+startNUmber+cLetters[idxLetterStart])
             return false;
         }
-
         nIterations--
     }
     ascendNumber ? ++startNUmber : --startNUmber;
     ascendLetter ? ++idxLetterStart : --idxLetterStart;
     return ((startNUmber)+cLetters[idxLetterStart]) === idD
-
 }
 
 
 function moveAlfil(idS, idD){
-    console.log("MUEVE ALFIL")
-    var moveDone = false
 
     if (eqDiagonal(idS,idD) && diagonalNotBloqued(idS,idD)){
         if(document.getElementById(idD).innerHTML === ""){
             swapPieces(idS,idD)
         }else{
             KillPiece(idS,idD)
+        }            
+        return true
+    } 
+    return false
+}
+
+function moveCaballo(idS, idD){
+   
+    var startNUmber = parseInt(idS[0])
+    var endNumber = parseInt(idD[0])
+    var idxLetterStart = cLetters.indexOf(idS[1])
+    var idxLetterEnd = cLetters.indexOf(idD[1])
+
+    if( 
+        
+        (Math.abs(startNUmber-endNumber) === 2 && Math.abs(idxLetterStart-idxLetterEnd)===1) ||
+        (Math.abs(startNUmber-endNumber) === 1 && Math.abs(idxLetterStart-idxLetterEnd)===2) 
+        
+        ){
+            if(document.getElementById(idD).innerHTML === ""){
+                swapPieces(idS,idD)
+            }else{
+                KillPiece(idS,idD)
+            }       
+            return true
+    } 
+    return false
+}
+
+function moveRey(idS,idD){
+ 
+    var startNUmber = parseInt(idS[0])
+    var endNumber = parseInt(idD[0])
+    var idxLetterStart = cLetters.indexOf(idS[1])
+    var idxLetterEnd = cLetters.indexOf(idD[1])
+
+    if( 
+        (Math.abs(startNUmber-endNumber) === 1 && idxLetterStart === idxLetterEnd) ||
+        (Math.abs(idxLetterStart-idxLetterEnd)===1 && startNUmber === endNumber) ||
+        (Math.abs(idxLetterStart-idxLetterEnd)===1 && Math.abs(startNUmber-endNumber)===1)
+        ){
+            if(document.getElementById(idD).innerHTML === ""){
+                swapPieces(idS,idD)
+            }else{
+                KillPiece(idS,idD)
+            }
+                     
+            return true
+    }
+    return false
+}
+
+function moveReina(idS, idD){
+    if(
+        (eqDiagonal(idS,idD) && diagonalNotBloqued(idS,idD)) ||
+        (!blockedBeforeTarget(idS,idD) && ( eqCol(idS,idD) || eqRow(idS,idD) ))
+    ){
+        if(document.getElementById(idD).innerHTML === ""){
+            swapPieces(idS,idD)
+        }else{
+            KillPiece(idS,idD)
         }
         console.log("IDS: "+idS+" IDD: "+idD)              
-        moveDone = true
+        return true
     }
-    
-    if(moveDone){ 
-        changeTurn()
-        changeMarker()
-                           
-    } else {
-        mensajeMovInvalido()
-    }
-    
+
+    return false
+
 }
 
 function selectAlgorithm(idS, nS, idD, nD){
     if(nS === "peon" ){
-        movePeon(idS, idD, nD);
+        return movePeon(idS, idD, nD);
     }else if(nS === "torre"){
-        moveTorre(idS, idD, nD);
+        return moveTorre(idS, idD, nD);
     }else if(nS === "alfil"){
-        moveAlfil(idS, idD, nD);
+        return moveAlfil(idS, idD, nD);
     }else if(nS === "caballo"){
-        moveCaballo(idS, idD, nD);
+        return moveCaballo(idS, idD, nD);
     }else if(nS === "reina"){
-        moveReina(idS, idD, nD);
+        return moveReina(idS, idD, nD);
     }else if(nS === "rey"){
-        moveRey(idS, idD, nD);
+        return moveRey(idS, idD, nD);
     }
 }
 
@@ -476,13 +534,54 @@ function getChessName(unicPiece){
     }
 }
 
+function isGameOver(destinyName){
+    return destinyName === "rey"
+}
+
+function closeGame(){
+    
+    var winner = turn === "W"? "piezas blancas" : "piezas negras"
+    gameOverModal.innerHTML = "FIN DE LA PARTIDA <br><br> Ganador: "+winner+"<br>"+"Enhorabuena !!!"
+    pantalla.style.visibility = "visible"
+    gameOverModal.style.visibility = "visible"
+    btnNewGame.style.visibility="visible"
+    animateFinal()
+
+}
 
 function try2computeMovement(idSource, idDestiny){
   
     sourceName = getChessName(document.getElementById(idSource).innerHTML)
     destinyName = getChessName(document.getElementById(idDestiny).innerHTML)
 
-    selectAlgorithm(idSource,sourceName, idDestiny, destinyName )
+    moveDone = selectAlgorithm(idSource,sourceName, idDestiny, destinyName )
+
+    if(moveDone){ 
+        if (isGameOver(destinyName)){
+            closeGame()
+        }
+
+        if (sourceName === "rey"){
+            if(turn === "W"){
+                whiteKingPosition = idSource
+
+            } else {
+                blackKingPosition = idSource
+            }
+        }
+
+        var jaque = turn === "W" ? entraEnJaqueElRey(blackKingPosition) : entraEnJaqueElRey(whiteKingPosition)
+
+        if(jaque !== ""){
+            mensajeJaque()
+        }
+        
+        changeTurn()
+        changeMarker()
+                            
+    } else {
+        mensajeMovInvalido()
+    }
 
     document.getElementById(idChosenCell).style.border = "";
     
@@ -490,41 +589,43 @@ function try2computeMovement(idSource, idDestiny){
     idNextCell=""
 }
 
+function entraEnJaqueElRey(idRey){
+    
+    return ""
+
+}
+
 
 function clickCell(){
-    console.log("SE_CLICKA")
-    // PRIMER CLICK A CASILLA CONTRARIA O VACIA 
+    //Primer click a casilla contraria o casilla vacía
     if( idChosenCell === "" && !isCurrentPlayerChess(this.innerHTML) ){
-        console.log("->1")
-        /* DO NOTHING */
 
-    //CLICAS PARA SELECCIONAR ALGUNA DE TUS CASILLAS
-    }else if( idChosenCell === "" && isCurrentPlayerChess(this.innerHTML) ){
-        console.log("->2")
+    }else if ( idChosenCell === "" && isCurrentPlayerChess(this.innerHTML) ){
+        if (lastCellKilled !== ""){
+            document.getElementById(lastCellKilled).classList.remove("killedCell")
+        }
+        stopAnimations()
         borrarMensaje()
         this.style.border = "3px solid blue";
         idChosenCell = this.getAttribute("id")
+    
+    //Cambio de casilla atacante
+    }else if (idChosenCell !== "" && isCurrentPlayerChess(this.innerHTML)){
+        document.getElementById(idChosenCell).style.border = "1px solid black"
+        idChosenCell = this.getAttribute("id")
+        document.getElementById(idChosenCell).style.border = "3px solid blue";
 
-    //CLICAS MISMA CASILLA DESACTIVAS
+    //Desactivar una casilla atacante
     } else if (idChosenCell === this.getAttribute("id")){ 
-        console.log("->3")
         document.getElementById(idChosenCell).style.border = "";
         idChosenCell = ""
         idNextCell = ""
     
-    //Intento matar una pieza de tu color
-    }else if(idChosenCell !== "" && isCurrentPlayerChess(this.innerHTML)){
-        console.log("->4")
-        mensajeMovInvalido()    
-    
-    
+    //Caso general: computar el movimiento
     } else {
-        console.log("->5")
         idNextCell = this.getAttribute("id")
         try2computeMovement(idChosenCell,idNextCell)
     }
-
-    console.log("ID_Chosen: <"+idChosenCell+">, "+"ID_NE: <"+idNextCell+">")
 
 }
 
@@ -536,9 +637,25 @@ function isPeon(piece){
     return false;
 }
 
+function resetKilledPieces(){
+    while(p1.childNodes.length > 0){
+        p1.childNodes[0].remove()
+    }
+
+    while(p2.childNodes.length > 0){
+        p2.childNodes[0].remove()
+    }
+}
 
 function createBoard(){
-    //BOARD creation
+    stopAnimations()
+    resetKilledPieces()
+    gameOverModal.innerHTML = ""
+    grid.innerHTML = ""
+    whiteKingPosition = "1E"
+    blackKingPosition = "8E"
+
+
     for (var row = 8; row>0 ; row--){
         swithColor()
         for (var col=0; col< 8; col++){
@@ -556,24 +673,26 @@ function createBoard(){
             grid.appendChild(newCell)
         }
     }
+    if (letrasU.childNodes.length < 8){
+        //LETTERS & NUMS creation
+        for(var i = 0, j= 8; i< 8; i++, j--){
+            var num = document.createElement("div")
+            num.innerHTML = j 
+            num.classList.add("numero")
+            num.style.color = "golden"
 
-    //LETTERS & NUMS creation
-    for(var i = 0, j= 8; i< 8; i++, j--){
-        var num = document.createElement("div")
-        num.innerHTML = j 
-        num.classList.add("numero")
-        num.style.color = "golden"
+            var copyNum = num
+            numerosL.appendChild(num)
 
-        var copyNum = num
-        numerosL.appendChild(num)
-
-        var letra = document.createElement("div")
-        letra.innerHTML = cLetters[i]
-        letra.classList.add("letra")
-        letra.style.color = "golden"
-        var copyLetra = letra
-        letrasU.appendChild(copyLetra)
-    }
+            var letra = document.createElement("div")
+            letra.innerHTML = cLetters[i]
+            letra.classList.add("letra")
+            letra.style.color = "golden"
+            var copyLetra = letra
+            letrasU.appendChild(copyLetra)
+        }
+}
+    
 }
 
 function unicodeToSymbol(unicode){

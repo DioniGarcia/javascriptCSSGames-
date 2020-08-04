@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/indexFB.css">
+    <title>FB_Crud</title>
+</head>
+<body>
+    <h1 class="title">Chess Party</h1>
+    <div class="grid"></div>
+    <button id="start-btn">Comenzar Partida</button>
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCqAsR_jVKp-yXfIc-h_jNOhD1YnGz4sUw",
+        authDomain: "chess-94d21.firebaseapp.com",
+        databaseURL: "https://chess-94d21.firebaseio.com",
+        projectId: "chess-94d21",
+        storageBucket: "chess-94d21.appspot.com",
+        messagingSenderId: "494494609369",
+        appId: "1:494494609369:web:17eed69e11563256d333c8",
+        
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    </script>
+<script defer src="../js/indexFB.js"></script>
+</body>
+</html>

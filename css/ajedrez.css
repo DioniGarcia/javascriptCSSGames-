@@ -5,6 +5,8 @@
     font-family: 'Alegreya Sans', sans-serif;
     
     --cellSize: 65px;
+    --gridSIze: 520px;
+    --maderaSize: 652px;
 }
 
 h1{
@@ -14,7 +16,8 @@ h1{
 }
 
 body{
-    background-image: linear-gradient(to bottom left, ivory,black, ivory);
+    /*background-image: linear-gradient(to bottom left, ivory,black, ivory);*/
+    background-image: url(woodBK.jpg);
     background-repeat: no-repeat;
     height: 99vh;
 }
@@ -34,38 +37,112 @@ body{
     height: 5vh;
     margin-bottom: 2em;
     transition: all 2s;
+    position: relative;
 }
 
-.playerOneWon{
-    font-size: calc(var(--cellSize)*.85);
-    border: 15px ridge rgb(122, 53, 13);
-    background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
-    text-align:center;
-    transition: all 1s;
-    min-width: var(--cellSize);
+.peon{
+    position: absolute;
+    font-size: 8em;
+    top: -1em;
+    z-index: 1;
 }
-.playerTwoWon{
+
+.whiteP{
+    color: white;
+    left: -.5em;
+    
+}
+
+.blackP{
+    
+}
+
+.bouncing{
+    animation: 2s appearW linear 1, 3s bouncing ease-in 2;
+}
+
+.bouncingFinal{
+    animation: 2s appearW linear 1, 3s bouncing ease-in infinite;
+}
+
+@keyframes appearW{
+    
+    50%{
+        opacity: 50%; 
+    }
+
+    100%{
+        opacity: 100%
+    }
+}
+
+@keyframes bouncing{
+    20%{
+        transform: rotate(45deg);
+    }
+    40%{
+        transform: rotate(-45deg);
+    }
+    60%{
+        transform: rotate(20deg);
+    }
+    70%{
+        transform: rotate(-20deg);
+    }
+    80%{
+        transform: rotate(10deg);
+    }
+    90%{
+        transform: rotate(-10deg);
+    }
+    100%{
+        transform: rotate(0);
+    }
+}
+
+
+
+.blackP{
+   right: -.5em;
+}
+
+.killed{
     font-size: calc(var(--cellSize)*.85);
     border: 15px ridge rgb(122, 53, 13);
-    min-width: var(--cellSize);
-    
+    height:  var(--maderaSize);
+    width: calc(var(--cellSize)*2.5);
+    flex: none;
     transition: all 1s;
     background-image: linear-gradient(to bottom left,rgba(236, 155, 102, 0.52),ivory,rgba(236, 155, 102, 0.52));
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+
+.spacer{
+    
+    height:  var(--maderaSize);
+    flex: 0 0 20%;
 }
 
 
 .grid{
     display: inline-flex;
     flex-wrap: wrap;
-    width: 520px;
-    height: 520px;
+    width: var(--gridSIze);
+    height: var(--gridSIze);
     margin-left: auto;
     margin-right:auto;
 }
 
 .content{   
     display:flex;
-    justify-content: space-evenly; 
+    flex-direction: row;
+    justify-content: center;
+  
+     
 }
 
 .mensaje{
@@ -86,6 +163,11 @@ body{
 .red{
     background-color: rgba(255, 0, 0, 0.493);
     border-left: 5px solid red;
+}
+
+.orange{
+    background-color: rgba(255, 136, 0, 0.438);
+    border-left: 5px solid orange;
 }
 
 .green{
@@ -125,10 +207,11 @@ body{
 
 
 .madera{
+    flex: none;
     border: 15px ridge rgb(122, 53, 13);
-    width: 652px;
-    height: 652px;
-    
+    height: var(--maderaSize);
+    width: var(--maderaSize);
+    transition: all 1s;
     margin-left: auto;
     margin-right:auto;
     background-image: linear-gradient(rgb(180, 69, 5), rgb(246, 224, 195),rgb(180, 70, 6) );
@@ -140,11 +223,10 @@ body{
 
 .numeros{
     position: absolute;
-    font-size: 3.6em;
+    font-size: 3.5em;
     width: calc(var(--cellSize)*0.75);
     height: calc(var(--cellSize)*8);
-    top: 7%;
- 
+    top: 7.5%;
    display: flex;
    flex-direction: column;
    justify-content: center;
@@ -155,8 +237,13 @@ body{
     left:0;
 }
 
-.right{
-    right:0;
+.numeros.right{
+    
+    right:0px;
+}
+
+.killedCell{
+    animation: markCell 1s ease-in;
 }
 
 .letras{
@@ -168,11 +255,11 @@ body{
 }
 
 .down{
-    bottom: 2px;
+    bottom: 1px;
 }
 
 .up{
-    top: 2px;
+    top: -3px;
 }
 
 .letra{
@@ -203,10 +290,53 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all .1s ;
+    transition: border .1s;
+    transition: width 1s;
+    transition: height 1s;
+    
 }
 
+.gameOver{
+    color: gold;
+    font-weight: bolder;
+    font-size: calc(var(--cellSize)/1.7);
+    position: absolute;
+    border-radius: .5em;
+    padding: .5em;
+    border: 2px solid red;
+    background-color: rgba(0, 0, 0, 0.733);
+    height: calc(var(--cellSize)*5);
+    width: calc(var(--cellSize)*7);
+    z-index: 10;
+    visibility: hidden;
 
+}
+
+.pantalla{
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.342);
+    height: var(--maderaSize);
+    width: var(--maderaSize);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+.nuevoJuego{
+    position: absolute;
+    top: 70%;
+    left: 60%;
+    font-size: calc(var(--cellSize)/3.8);
+    border-radius: 2em;
+    width: calc(var(--cellSize)*2);
+    height: var(var(--cellSize)*2);
+    background-color: rgba(61, 148, 34, 0.493);;
+    color: white;
+    z-index: 10;
+    visibility: hidden;
+
+}
 
 .cell:hover{
     border: 4px solid orange;
@@ -219,6 +349,10 @@ body{
 
 .whited{
     background-image: linear-gradient(to top left, white 50%, rgba(0, 0, 0, 0.315) );
+}
+
+.available{
+    background-image: linear-gradient(to top left, white 20%, rgba(67, 253, 191, 0.822) );
 }
 
 .player{
@@ -259,26 +393,46 @@ body{
     .cell{
         width: var(--cellSize);
         height: var(--cellSize);
-        font-size: 2em;
+        font-size: 2.5em;
     }
 
     .grid{
-        width: 402px;
-        height: 402px;
+        width: calc(var(--gridSIze)/1.3);
+        height: calc(var(--gridSIze)/1.3);
     }
     .scoring{
         width: calc(var(--cellSize)*8);
         
     }
-    .player{
-        width: 50%;
-        font-size: 3vh;
+    .killed{
+        height: calc(var(--maderaSize)/1.3);
+        font-size: 4.4vh;
     }
     .madera{
-        flex-grow: 0;
-        flex-shrink: 1;
+        
         width: 512px;
-    height: 512px;
+        height: calc(var(--maderaSize)/1.3);
+    }
+
+    .peon{
+        font-size: 6em;
+    }
+
+    .letras{
+        font-size: 1.8em;
+    }
+    .numeros{
+        font-size: 1.8em;
+    }
+
+    .mensaje{
+        font-size: 3.2vh;
+       
+    }
+
+    .pantalla{
+        width: 512px;
+        height: calc(var(--maderaSize)/1.3);
     }
     
 }
@@ -299,7 +453,7 @@ body{
     right: 20%;
 }
 
-.pyro > .before, .pyro > .after {
+.fireworks {
     position: absolute;
     width: 5px;
     height: 5px;
@@ -321,13 +475,17 @@ body{
                 244px -170.66667px #0062ff, 224px -142.66667px #b300ff, 141px -208.66667px #9000ff, 
                 211px -285.66667px #ff6600, 181px -128.66667px #1e00ff, 90px -123.66667px #c800ff, 
                 189px 70.33333px #00ffc8, -18px -383.66667px #00ff33, 100px -6.66667px #ff008c;
-    animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
-    /*animation-play-state: paused;*/ }
+    animation: 1s bang ease-out 2 backwards, 1s gravity ease-in 2 backwards, 5s position linear 2 backwards;
+     }
+
+     .fireworksFinal{
+        animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+     }
   
-  .pyro > .after {
+  .fireworks2 {
     animation-delay: 1.25s, 1.25s, 1.25s;
     animation-duration: 1.25s, 1.25s, 6.25s;
-    /*animation-play-state: paused;*/ }
+     }
   
   
   @keyframes bang {
@@ -345,6 +503,7 @@ body{
       opacity: 0; } }
   
   @keyframes position {
+
     0%, 19.9% {
       margin-top: 5%;
       margin-left: 20%; }
@@ -364,3 +523,28 @@ body{
     80%, 99.9% {
       margin-top: 20%;
       margin-left: 40%; } }
+
+@keyframes markCell{
+    15%{
+        background-image: linear-gradient(to bottom right, rgba(255, 0, 0, 0.329) 20% , white);
+    }
+    25%{
+        background-image: linear-gradient(to bottom right, rgba(255, 0, 0, 0.329) 20% , white);
+    }
+    40%{
+        background-image: linear-gradient(to bottom right, rgba(255, 0, 0, 0.637) 100% , white);
+    }
+    50%{
+        background-image: linear-gradient(to bottom right, rgb(255, 0, 0) 100% , white);
+    }
+    60%{
+        background-image: linear-gradient(to bottom right, rgb(255, 0, 0) 100% , white);
+    }
+
+    75%{
+        background-image: linear-gradient(to bottom right, rgba(255, 0, 0, 0.637) 100% , white);
+    }
+    85%{
+        background-image: linear-gradient(to bottom right, rgba(255, 0, 0, 0.329) 20% , white);
+    }
+}
