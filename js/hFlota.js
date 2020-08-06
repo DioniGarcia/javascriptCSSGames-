@@ -1,8 +1,12 @@
 const tablero = document.getElementById("tablero")
 const parrafos = Array.from(document.getElementsByTagName('p'))
+const puntuacion = document.querySelector(".puntuacion")
+const disparos = document.querySelector(".disparos")
 const sideSize = 10
 const boatSizes = [2,3,4]
 var boats = []
+var nDisparos = 40
+var nPuntuacion = 0
 
 function randCellStart(){
     return Math.floor(Math.random()*(sideSize*sideSize - 0) + 0)
@@ -129,9 +133,12 @@ function changeState(){
 
 
 function crearTabla(){
+    nPuntuacion = 0
+    nDisparos = 0
     
-    parrafos[0].innerHTML = "Puntuación: <span>0</span>"
-    parrafos[1].innerHTML = "Disparos disponibles: <span>40</span>"
+    puntuacion.innerHTML = nPuntuacion
+    disparos.innerHTML = nDisparos
+    
     tablero.innerHTML = ""
     for(var i = 0; i< sideSize*sideSize; i++){
         elem = document.createElement('div')
